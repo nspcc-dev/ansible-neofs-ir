@@ -9,4 +9,4 @@
     group: "{{ neofs_ir__group }}"
     mode: '0644'
   notify:
-    - Restart neofs-ir{{ neofs_ir__instance }} service
+    - Restart neofs-ir service
