@@ -1,0 +1,64 @@
+key: {{ neofs_ir__key_path }}
+
+morph:
+  endpoint:
+    client: {{ neofs_ir__morph_rpc }}
+    notification: {{ neofs_ir__morph_notification }}
+
+mainnet:
+  endpoint:
+    client: {{ neofs_ir__mainnet_rpc }}
+    notification: {{ neofs_ir__mainnet_notification }}
+
+contracts:
+{% for contract in neofs_ir__contracts %}
+  {{ contract }}: {{ neofs_ir__contracts[contract] }}
+{% endfor %}
+  alphabet:
+    amount: {{ neofs_ir__alphabet | length }}
+{% for letter in neofs_ir__alphabet %}
+    {{ letter }}: {{ neofs_ir__alphabet[letter] }}
+{% endfor %}
+
+timers:
+  epoch: 240
+  emit:  240
+  stop_estimation:
+    mul: 1
+    div: 4
+  collect_basic_income:
+    mul: 1
+    div: 2
+  distribute_basic_income:
+    mul: 3
+    div: 4
+
+emit:
+  storage_amount: 100000000
+
+audit:
+  pdp:
+    max_sleep_interval: 500ms
+
+netmap_cleaner:
+  enabled: true
+  threshold: 3
+
+locode:
+  db:
+    path: {{ neofs_ir__locodedb_path }}
+
+logger:
+  level: debug
+
+{% if neofs_ir__pprof_enabled | bool %}
+pprof:
+  enabled: true
+  address: {{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}
+{% endif %}
+
+{% if neofs_ir__prometheus_enabled | bool %}
+pprof:
+  enabled: true
+  address: {{ neofs_ir__prometheus_address }}:{{ neofs_ir__prometheus_port }}
+{% endif %}

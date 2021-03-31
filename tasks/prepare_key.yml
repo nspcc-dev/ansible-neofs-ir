@@ -1,0 +1,11 @@
+---
+
+- name: Ensure there is node key
+  ansible.builtin.copy:
+    src: "{{ neofs_ir__key }}"
+    dest: "{{ neofs_ir__key_path }}"
+    owner: 'root'
+    group: "{{ neofs_ir__group }}"
+    mode: '0640'
+  notify:
+    - Restart neofs-ir{{ neofs_ir__instance }} service

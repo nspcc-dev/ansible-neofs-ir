@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+
+version: '2.4'
+
+services:
+  neofs-ir{{ neofs_ir__instance }}:
+    image: {{ neofs_ir__docker_image }}
+    container_name: neofs-ir{{ neofs_ir__instance }}
+    hostname: neofs-ir{{ neofs_ir__instance }}
+    network_mode: host
+    stop_signal: SIGKILL
+    user: "{{ getent_passwd[neofs_ir__user][1] }}:{{ getent_group[neofs_ir__user][1] }}"
+    entrypoint: /bin/neofs-ir
+    command: -config {{ neofs_ir__conf_dir }}/config.yaml
+    volumes:
+    - {{ neofs_ir__data_dir }}:{{ neofs_ir__data_dir }}
+    - {{ neofs_ir__conf_dir }}:{{ neofs_ir__conf_dir }}
