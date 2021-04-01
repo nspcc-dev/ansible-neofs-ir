@@ -34,7 +34,8 @@ timers:
     div: 4
 
 emit:
-  storage_amount: 100000000
+  storage:
+    amount: 400000000
 
 audit:
   pdp:
@@ -47,6 +48,13 @@ netmap_cleaner:
 locode:
   db:
     path: {{ neofs_ir__locodedb_path }}
+
+workers:
+  netmap: 100
+  balance: 100
+  neofs: 100
+  container: 100
+  alphabet: 100
 
 logger:
   level: debug
