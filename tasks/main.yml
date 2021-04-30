@@ -41,7 +41,7 @@
 
 - include: prepare_locodedb.yml
 
-- name: Prepare NeoFS IR config
+- name: Prepare NeoFS IR config for neofs-ir{{ neofs_ir__instance }}
   ansible.builtin.template:
     src: 'config.yaml.j2'
     dest: "{{ neofs_ir__conf_dir }}/config.yaml"
@@ -49,7 +49,7 @@
     group: "{{ neofs_ir__group }}"
     mode: '0640'
   notify:
-    - Restart neofs-ir service
+    - Restart neofs-ir{{ neofs_ir__instance }} service
 
 - include: download_binary.yml
   when: not (neofs_ir__use_compose | bool)
@@ -64,7 +64,7 @@
     database: group
     key: "{{ neofs_ir__group }}"
 
-- name: Prepare docker-compose for neofs-ir
+- name: Prepare docker-compose for neofs-ir{{ neofs_ir__instance }}
   ansible.builtin.template:
     src: 'docker-compose.yml.j2'
     dest: "{{ neofs_ir__conf_dir }}/docker-compose.yml"
@@ -73,7 +73,7 @@
     mode: '0640'
   when: neofs_ir__use_compose | bool
   notify:
-    - Restart neofs-ir service
+    - Restart neofs-ir{{ neofs_ir__instance }} service
 
 - name: Copy regular systemd unit file
   ansible.builtin.template:
@@ -81,7 +81,7 @@
     dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
   when: not (neofs_ir__use_compose | bool)
   notify:
-    - Restart neofs-ir service
+    - Restart neofs-ir{{ neofs_ir__instance }} service
 
 - name: Copy Docker systemd unit file
   ansible.builtin.template:
@@ -89,9 +89,9 @@
     dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
   when: neofs_ir__use_compose | bool
   notify:
-    - Restart neofs-ir service
+    - Restart neofs-ir{{ neofs_ir__instance }} service
 
-- name: Ensure NeoFS IR service runs
+- name: Ensure NeoFS IR{{ neofs_ir__instance }} service runs
   ansible.builtin.systemd:
     name: "neofs-ir{{ neofs_ir__instance }}.service"
     state: 'started'
