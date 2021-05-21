@@ -1,6 +1,6 @@
 key: {{ neofs_ir__key_path }}
 
-without_mainnet: {{ neofs_ir__without_mainnet }}
+without_main_notary: true
 
 morph:
   endpoint:
@@ -23,7 +23,6 @@ contracts:
 {% endfor %}
 
 timers:
-  epoch: 240
   emit:  240
   stop_estimation:
     mul: 1
@@ -37,7 +36,7 @@ timers:
 
 emit:
   storage:
-    storage_amount: 100000000
+    amount: 400000000
 
 audit:
   pdp:
@@ -51,6 +50,13 @@ locode:
   db:
     path: {{ neofs_ir__locodedb_path }}
 
+workers:
+  netmap: 100
+  balance: 100
+  neofs: 100
+  container: 100
+  alphabet: 100
+
 logger:
   level: debug
 
@@ -61,7 +67,7 @@ pprof:
 {% endif %}
 
 {% if neofs_ir__prometheus_enabled | bool %}
-pprof:
+metrics:
   enabled: true
   address: {{ neofs_ir__prometheus_address }}:{{ neofs_ir__prometheus_port }}
 {% endif %}
