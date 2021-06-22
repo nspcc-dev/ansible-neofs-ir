@@ -48,8 +48,6 @@
     owner: 'root'
     group: "{{ neofs_ir__group }}"
     mode: '0640'
-  notify:
-    - Restart neofs-ir{{ neofs_ir__instance }} service
 
 - include: download_binary.yml
   when: not (neofs_ir__use_compose | bool)
@@ -72,29 +70,23 @@
     group: "{{ neofs_ir__group }}"
     mode: '0640'
   when: neofs_ir__use_compose | bool
-  notify:
-    - Restart neofs-ir{{ neofs_ir__instance }} service
 
 - name: Copy regular systemd unit file
   ansible.builtin.template:
     src: "neofs-ir.service.bin.j2"
     dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
   when: not (neofs_ir__use_compose | bool)
-  notify:
-    - Restart neofs-ir{{ neofs_ir__instance }} service
 
 - name: Copy Docker systemd unit file
   ansible.builtin.template:
     src: "neofs-ir.service.compose.j2"
     dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
   when: neofs_ir__use_compose | bool
-  notify:
-    - Restart neofs-ir{{ neofs_ir__instance }} service
 
 - name: Ensure NeoFS IR{{ neofs_ir__instance }} service runs
   ansible.builtin.systemd:
     name: "neofs-ir{{ neofs_ir__instance }}.service"
-    state: 'started'
+    state: 'restarted'
     enabled: yes
     daemon_reload: yes
 

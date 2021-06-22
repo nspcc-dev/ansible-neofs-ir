@@ -3,10 +3,9 @@
 # TODO: Check if the existing binary matches the remote file and update if
 # necessary.
 - name: Download neofs-ir binary
-  ansible.builtin.unarchive:
-    src: "{{ neofs_ir__bin_url }}"
-    remote_src: yes
-    dest: "{{ neofs_ir__bin_path | dirname }}"
+  ansible.builtin.get_url:
+    url: "{{ neofs_ir__bin_url }}"
+    dest: "{{ neofs_ir__bin_path }}"
     owner: 'root'
     group: 'root'
     mode: '0755'

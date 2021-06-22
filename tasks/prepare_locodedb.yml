@@ -8,5 +8,3 @@
     owner: "{{ neofs_ir__user }}"
     group: "{{ neofs_ir__group }}"
     mode: '0644'
-  notify:
-    - Restart neofs-ir{{ neofs_ir__instance }} service
