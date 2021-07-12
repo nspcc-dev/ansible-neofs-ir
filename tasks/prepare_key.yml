@@ -7,3 +7,11 @@
     owner: 'root'
     group: "{{ neofs_ir__group }}"
     mode: '0640'
+
+- name: Ensure there is node wallet
+  ansible.builtin.copy:
+    content: "{{ neofs_ir__wallet }}"
+    dest: "{{ neofs_ir__wallet_path }}"
+    owner: 'root'
+    group: "{{ neofs_ir__group }}"
+    mode: '0660'

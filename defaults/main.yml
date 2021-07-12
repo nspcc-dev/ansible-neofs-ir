@@ -13,7 +13,12 @@ neofs_ir__conf_dir: "/etc/neofs/ir{{ neofs_ir__instance }}"
 # Directory for databases and processing results
 neofs_ir__data_dir: "/var/lib/neofs/neofs-ir{{ neofs_ir__instance }}"
 
+neofs_ir__key: "/local/path/to/key"
 neofs_ir__key_path: "{{ neofs_ir__conf_dir }}/node.key"
+neofs_ir__wallet: "/local/path/to/wallet"
+neofs_ir__wallet_path: "{{ neofs_ir__conf_dir }}/wallet.json"
+neofs_ir__wallet_address: ""
+neofs_ir__wallet_passwd: ""
 
 # Default bind address
 neofs_ir__bind_address: '0.0.0.0'
