@@ -55,14 +55,14 @@ neofs_ir__alphabet:
 # Ports and options for each service
 neofs_ir__prometheus_enabled: False
 neofs_ir__prometheus_port: '6662'
-neofs_ir__prometheus_address:  '{{ neofs_ir__bind_address }}'
+neofs_ir__prometheus_address: 'localhost'
 neofs_ir__prometheus_allow: []
 neofs_ir__prometheus_group_allow: []
 neofs_ir__prometheus_host_allow: []
 
 neofs_ir__pprof_enabled: False
 neofs_ir__pprof_port: '6661'
-neofs_ir__pprof_address:  '{{ neofs_ir__bind_address }}'
+neofs_ir__pprof_address: '{{ neofs_ir__bind_address }}'
 neofs_ir__pprof_allow: []
 neofs_ir__pprof_group_allow: []
 neofs_ir__pprof_host_allow: []
