@@ -37,9 +37,26 @@
   with_items:
     - "{{ neofs_ir__conf_dir }}"
 
-- include: prepare_key.yml
+- name: Ensure there is node wallet
+  ansible.builtin.copy:
+    content: "{{ neofs_ir__wallet }}"
+    dest: "{{ neofs_ir__wallet_path }}"
+    owner: 'root'
+    group: "{{ neofs_ir__group }}"
+    mode: '0660'
+  notify:
+    - Restart neofs-ir instance service
 
-- include: prepare_locodedb.yml
+- name: Download locode database archive
+  ansible.builtin.unarchive:
+    src: "{{ neofs_ir__locodedb_download_url }}"
+    remote_src: yes
+    dest: "{{ neofs_ir__data_dir }}"
+    owner: "{{ neofs_ir__user }}"
+    group: "{{ neofs_ir__group }}"
+    mode: '0644'
+  notify:
+    - Restart neofs-ir instance service
 
 - name: Prepare NeoFS IR config for neofs-ir{{ neofs_ir__instance }}
   ansible.builtin.template:
@@ -48,9 +65,19 @@
     owner: 'root'
     group: "{{ neofs_ir__group }}"
     mode: '0640'
+  notify:
+    - Restart neofs-ir instance service
 
-- include: download_binary.yml
+- name: Download neofs-ir binary
+  ansible.builtin.get_url:
+    url: "{{ neofs_ir__bin_url }}"
+    dest: "{{ neofs_ir__bin_path }}"
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
   when: not (neofs_ir__use_compose | bool)
+  notify:
+    - Restart neofs-ir instance service
 
 - name: Get uid for neofs-ir user
   ansible.builtin.getent:
@@ -70,23 +97,29 @@
     group: "{{ neofs_ir__group }}"
     mode: '0640'
   when: neofs_ir__use_compose | bool
+  notify:
+    - Restart neofs-ir instance service
 
 - name: Copy regular systemd unit file
   ansible.builtin.template:
     src: "neofs-ir.service.bin.j2"
     dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
   when: not (neofs_ir__use_compose | bool)
+  notify:
+    - Restart neofs-ir instance service
 
 - name: Copy Docker systemd unit file
   ansible.builtin.template:
     src: "neofs-ir.service.compose.j2"
     dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
   when: neofs_ir__use_compose | bool
+  notify:
+    - Restart neofs-ir instance service
 
 - name: Ensure NeoFS IR{{ neofs_ir__instance }} service runs
   ansible.builtin.systemd:
     name: "neofs-ir{{ neofs_ir__instance }}.service"
-    state: 'restarted'
+    state: 'started'
     enabled: yes
     daemon_reload: yes
 
