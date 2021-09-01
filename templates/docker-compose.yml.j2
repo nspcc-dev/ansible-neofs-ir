@@ -8,7 +8,6 @@ services:
     container_name: neofs-ir{{ neofs_ir__instance }}
     hostname: neofs-ir{{ neofs_ir__instance }}
     network_mode: host
-    restart: always
     stop_signal: SIGKILL
     user: "{{ getent_passwd[neofs_ir__user][1] }}:{{ getent_group[neofs_ir__user][1] }}"
     entrypoint: /bin/neofs-ir
