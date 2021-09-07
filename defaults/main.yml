@@ -36,6 +36,7 @@ neofs_ir__locodedb_download_url:
   "https://github.com/nspcc-dev/neofs-locode-db/releases/download/{{ neofs_ir__locodedb_version }}/locode.db.tar.gz"
 
 neofs_ir__locodedb_path: "{{ neofs_ir__data_dir }}/locode.db"
+neofs_ir__persistent_state_path: "{{ neofs_ir__data_dir }}/.state"
 
 neofs_ir__contracts:
   netmap: '600270a6fd666dc137fa3e62c9d2606b75aeb298'

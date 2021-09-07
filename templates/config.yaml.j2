@@ -53,6 +53,10 @@ netmap_cleaner:
   enabled: true
   threshold: 3
 
+node:
+  persistent_state:
+    path: {{ neofs_ir__persistent_state_path }}
+
 locode:
   db:
     path: {{ neofs_ir__locodedb_path }}
