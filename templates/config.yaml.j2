@@ -29,6 +29,11 @@ contracts:
     {{ letter }}: {{ neofs_ir__alphabet[letter] }}
 {% endfor %}
 
+{% if neofs_ir__governance_disable | bool %}
+governance:
+  disable: true
+{% endif %}
+
 timers:
   emit:  240
   stop_estimation:

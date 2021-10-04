@@ -18,6 +18,9 @@ neofs_ir__wallet_path: "{{ neofs_ir__conf_dir }}/wallet.json"
 neofs_ir__wallet_address: ""
 neofs_ir__wallet_passwd: ""
 
+# Should be true to disable governance contract
+neofs_ir__governance_disable: false
+
 # Default bind address
 neofs_ir__bind_address: '0.0.0.0'
 
@@ -81,7 +84,7 @@ neofs_ir__pprof_group_allow: []
 neofs_ir__pprof_host_allow: []
 
 # NeoFS options
-neofs_ir__version: '0.24.0'
+neofs_ir__version: '0.25.1'
 neofs_ir__docker_image: "nspccdev/neofs-ir:{{ neofs_ir__version }}"
 neofs_ir__bin_url: "https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-ir-amd64"
 neofs_ir__bin_path: '/usr/local/bin/neofs-ir'
