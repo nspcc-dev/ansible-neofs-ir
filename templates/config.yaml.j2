@@ -3,28 +3,30 @@ wallet:
   address: {{ neofs_ir__wallet_address }}
   password: {{ neofs_ir__wallet_passwd }}
 
-without_notary: {{ neofs_ir__without_notary }}
-
 morph:
   endpoint:
     client: {{ neofs_ir__morph_rpc }}
     notification: {{ neofs_ir__morph_notification }}
-  validators: 
+  validators:
 {% for s in neofs_ir__validators %}
     - {{ s }}
 {% endfor %}
 
+{% if neofs_ir__without_mainnet %}
+without_mainnet: True
+{% else %}
 mainnet:
   endpoint:
     client: {{ neofs_ir__mainnet_rpc }}
     notification: {{ neofs_ir__mainnet_notification }}
+{% endif %}
 
 contracts:
 {% for contract in neofs_ir__contracts %}
   {{ contract }}: {{ neofs_ir__contracts[contract] }}
 {% endfor %}
   alphabet:
-    amount: {{ neofs_ir__alphabet | length }}
+    amount: {{ neofs_ir__alphabet_length }}
 {% for letter in neofs_ir__alphabet %}
     {{ letter }}: {{ neofs_ir__alphabet[letter] }}
 {% endfor %}
@@ -35,7 +37,7 @@ governance:
 {% endif %}
 
 timers:
-  emit:  240
+  emit: {{ neofs_ir__emit_timer }}
   stop_estimation:
     mul: 1
     div: 4
@@ -88,7 +90,5 @@ metrics:
   address: {{ neofs_ir__prometheus_address }}:{{ neofs_ir__prometheus_port }}
 {% endif %}
 
-{% if neofs_ir__without_notary | bool %}
 fee:
-  side_chain: 500000000
-{% endif %}
+  side_chain: {{ neofs_ir__sidechain_fee }}
