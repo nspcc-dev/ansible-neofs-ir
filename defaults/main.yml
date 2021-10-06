@@ -32,8 +32,6 @@ neofs_ir__mainnet_notification: 'ws://127.0.0.1:20332/ws'
 
 neofs_ir__without_mainnet: False
 
-neofs_ir__without_notary: False
-
 neofs_ir__locodedb_version: 'v0.1.0'
 neofs_ir__locodedb_download_url:
   "https://github.com/nspcc-dev/neofs-locode-db/releases/download/{{ neofs_ir__locodedb_version }}/locode.db.tar.gz"
@@ -41,6 +39,8 @@ neofs_ir__locodedb_download_url:
 neofs_ir__locodedb_path: "{{ neofs_ir__data_dir }}/locode.db"
 neofs_ir__persistent_state_path: "{{ neofs_ir__data_dir }}/.state"
 
+# Contract hashes might be auto-negotiated from NNS. One may
+# leave this list empty, and Inner Ring node will obtain the hashes.
 neofs_ir__contracts:
   netmap: '600270a6fd666dc137fa3e62c9d2606b75aeb298'
   balance: '2835a2d2a28ffc8866840df7aafda5780c7514a3'
@@ -49,6 +49,8 @@ neofs_ir__contracts:
   audit: '27571287757e0e9809d01799c9f049a8ae5952ce'
   proxy: 'dedf58b489e5af01a1a2089393102d46d74806ac'
 
+# Alphabet hashes might be auto-negotiated from NNS. One may
+# leave this list empty, and Inner Ring node will obtain the hashes.
 neofs_ir__alphabet:
   az: 'dc4c2e03f2ca806a82415407cd2264338cc751b4'
   buky: '1e01771dfb5cb499f194f54d53bc4d0a37fca393'
@@ -57,6 +59,8 @@ neofs_ir__alphabet:
   dobro: '88b3a5b5de99aae9308408301e9b64620fe9f999'
   yest: '2f78667749d5da59ea622f5f809022a786f8f700'
   zhivete: '06f739fa714d23d1ce8a569595812cf8f9023b1e'
+
+neofs_ir__alphabet_length: 7
 
 neofs_ir__validators:
   - '026fa34ec057d74c2fdf1a18e336d0bd597ea401a0b2ad57340d5c220d09f44086'
@@ -67,6 +71,10 @@ neofs_ir__validators:
   - '035a2a18cddafa25ad353dea5e6730a1b9fcb4b918c4a0303c4387bb9c3b816adf'
   - '031f4d9c66f2ec348832c48fd3a16dfaeb59e85f557ae1e07f6696d0375c64f97b'
 
+
+neofs_ir__sidechain_fee: 500000000
+
+neofs_ir__emit_timer: 240
 
 # Ports and options for each service
 neofs_ir__prometheus_enabled: False
