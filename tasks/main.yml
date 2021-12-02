@@ -1,21 +1,7 @@
 ---
 
 # Prepare system
-- name: Ensure there is neofs-ir group
-  ansible.builtin.group:
-    name: "{{ neofs_ir__group }}"
-    system: True
-    state: 'present'
-
-- name: Ensure there is neofs-ir user
-  ansible.builtin.user:
-    name: "{{ neofs_ir__user }}"
-    group: "{{ neofs_ir__group }}"
-    password: !
-    shell: /usr/sbin/nologin
-    home: "{{ neofs_ir__data_dir }}"
-    system: True
-    state: 'present'
+- ansible.builtin.include: 'prepare_user.yml'
 
 - name: Ensure data directory exists
   ansible.builtin.file:
