@@ -26,7 +26,6 @@ contracts:
   {{ contract }}: {{ neofs_ir__contracts[contract] }}
 {% endfor %}
   alphabet:
-    amount: {{ neofs_ir__alphabet_length }}
 {% for letter in neofs_ir__alphabet %}
     {{ letter }}: {{ neofs_ir__alphabet[letter] }}
 {% endfor %}
@@ -93,3 +92,4 @@ metrics:
 fee:
   side_chain: {{ neofs_ir__sidechain_fee }}
   main_chain: {{ neofs_ir__mainchain_fee }} # default is 50000000
+  named_container_register: {{ neofs_ir__named_container_register_fee }}
