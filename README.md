@@ -1,15 +1,7 @@
-neofs-ir
+Ansible [NeoFS Inner Ring][neofs-node] role.
 =========
 
-[Ansible](ansible) role for setting up [NeoFS](neofs) Inner Ring node.
+This role deploys [Inner Ring node][neofs-node] for [NeoFS][neofs].
 
-[ansible]: https://github.com/ansible/ansible/
-[neofs]:https://fs.neo.org
-
-License
--------
-
-The project is licensed under the [GNU General Public License 3.0 or
-later][GPL-3.0-or-later].
-
-[GPL-3.0-or-later]: https://www.gnu.org/licenses/gpl-3.0
+[neofs-node]: https://github.com/nspcc-dev/neofs-node
+[neofs]:      https://fs.neo.org
