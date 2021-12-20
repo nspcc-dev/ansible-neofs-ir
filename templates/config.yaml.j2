@@ -75,7 +75,7 @@ workers:
   alphabet: 100
 
 logger:
-  level: debug
+  level: {{ neofs_ir__loglevel }}
 
 {% if neofs_ir__pprof_enabled | bool %}
 pprof:

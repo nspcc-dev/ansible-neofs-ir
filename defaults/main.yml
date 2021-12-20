@@ -13,6 +13,8 @@ neofs_ir__conf_dir: "/etc/neofs/ir{{ neofs_ir__instance }}"
 # Directory for databases and processing results
 neofs_ir__data_dir: "/var/lib/neofs/neofs-ir{{ neofs_ir__instance }}"
 
+neofs_ir__loglevel: 'info'
+
 neofs_ir__wallet: "/local/path/to/wallet"
 neofs_ir__wallet_path: "{{ neofs_ir__conf_dir }}/wallet.json"
 neofs_ir__wallet_address: ""
