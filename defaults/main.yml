@@ -88,7 +88,7 @@ neofs_ir__prometheus_host_allow: []
 
 neofs_ir__pprof_enabled: False
 neofs_ir__pprof_port: '6661'
-neofs_ir__pprof_address: '{{ neofs_ir__bind_address }}'
+neofs_ir__pprof_address: 'localhost'
 neofs_ir__pprof_allow: []
 neofs_ir__pprof_group_allow: []
 neofs_ir__pprof_host_allow: []
