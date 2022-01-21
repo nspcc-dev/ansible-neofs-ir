@@ -78,7 +78,7 @@ logger:
   level: {{ neofs_ir__loglevel }}
 
 {% if neofs_ir__pprof_enabled | bool %}
-pprof:
+profiler:
   enabled: true
   address: {{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}
 {% endif %}
