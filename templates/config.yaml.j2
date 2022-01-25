@@ -35,6 +35,18 @@ governance:
   disable: true
 {% endif %}
 
+{% if neofs_ir__control_enabled | bool %}
+control:
+{% if neofs_ir__control_authorized_keys|length > 0 %}
+  authorized_keys:
+{% for key in neofs_ir__control_authorized_keys %}
+    - {{ key }}
+{% endfor %}
+{% endif %}
+  grpc:
+    endpoint: {{ neofs_ir__control_endpoint_host }}:{{ neofs_ir__control_endpoint_port }}
+{% endif %}
+
 timers:
   emit: {{ neofs_ir__emit_timer }}
   stop_estimation:
