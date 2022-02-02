@@ -13,11 +13,21 @@
   with_items:
     - "{{ neofs_ir__data_dir }}"
 
-- name: Ensure configuration directory exists
+- name: Create configuration directory parent
   ansible.builtin.file:
     state: directory
     path: "{{ item }}"
-    owner: "root"
+    owner: 'root'
+    group: 'root'
+    mode: '0755'
+  with_items:
+    - "{{ neofs_ir__conf_dir | realpath | dirname }}"
+
+- name: Create configuration directory
+  ansible.builtin.file:
+    state: directory
+    path: "{{ item }}"
+    owner: 'root'
     group: "{{ neofs_ir__group }}"
     mode: '0750'
   with_items:
