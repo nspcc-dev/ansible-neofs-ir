@@ -41,6 +41,12 @@ neofs_ir__locodedb_download_url:
 neofs_ir__locodedb_path: "{{ neofs_ir__data_dir }}/locode.db"
 neofs_ir__persistent_state_path: "{{ neofs_ir__data_dir }}/.state"
 
+# NeoFS Cli options
+neofs_ir__cli_bin_url: "https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-cli-amd64"
+neofs_ir__cli_bin_path: '/usr/local/bin/neofs-cli'
+
+neofs_ir__control_api_config_path: "{{ neofs_ir__conf_dir }}/control.yml"
+
 # Contract hashes might be auto-negotiated from NNS. One may
 # leave this list empty, and Inner Ring node will obtain the hashes.
 neofs_ir__contracts:
