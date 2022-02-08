@@ -1,0 +1,18 @@
+---
+
+- name: Write config for Control API
+  ansible.builtin.template:
+    src: 'control.yml.j2'
+    dest: "{{ neofs_ir__control_api_config_path }}"
+    owner: 'root'
+    group: "{{ neofs_ir__group }}"
+    mode: '0640'
+
+- name: Run a check
+  ansible.builtin.shell: |
+      {{ neofs_ir__cli_bin_path }} control healthcheck -c {{ neofs_ir__control_api_config_path }} --ir
+  register: _neofs_ir_check_result
+  until: _neofs_ir_check_result.rc == 0
+  retries: 10
+  delay: 30
+
