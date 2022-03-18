@@ -15,4 +15,3 @@
   until: _neofs_ir_check_result.rc == 0
   retries: 10
   delay: 30
-
