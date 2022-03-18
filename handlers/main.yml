@@ -1,6 +1,6 @@
 ---
 
-- name: Restart neofs-ir instance service
+- name: Restart NeoFS IR service
   ansible.builtin.systemd:
     name: "neofs-ir{{ neofs_ir__instance }}.service"
     state: 'restarted'
