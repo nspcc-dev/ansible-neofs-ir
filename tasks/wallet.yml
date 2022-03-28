@@ -6,6 +6,5 @@
     dest: "{{ neofs_ir__wallet_path }}"
     owner: 'root'
     group: "{{ neofs_ir__group }}"
-    mode: '0660'
-  notify:
-    - Restart NeoFS IR service
+    mode: '0640'
+  notify: [ 'Restart NeoFS IR service' ]

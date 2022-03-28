@@ -29,11 +29,10 @@
     src: "{{ neofs_ir__locodedb_download_url }}"
     remote_src: yes
     dest: "{{ neofs_ir__data_dir }}"
-    owner: "{{ neofs_ir__user }}"
-    group: "{{ neofs_ir__group }}"
+    owner: 'root'
+    group: 'root'
     mode: '0644'
-  notify:
-    - Restart NeoFS IR service
+  notify: [ 'Restart NeoFS IR service' ]
 
 - name: Copy NeoFS IR config
   ansible.builtin.template:
@@ -42,8 +41,7 @@
     owner: 'root'
     group: "{{ neofs_ir__group }}"
     mode: '0640'
-  notify:
-    - Restart NeoFS IR service
+  notify: [ 'Restart NeoFS IR service' ]
 
 - ansible.builtin.include_tasks: 'binary.yml'
 
@@ -57,24 +55,21 @@
     group: "{{ neofs_ir__group }}"
     mode: '0640'
   when: neofs_ir__use_compose | bool
-  notify:
-    - Restart NeoFS IR service
+  notify: [ 'Restart NeoFS IR service' ]
 
 - name: Copy regular systemd unit
   ansible.builtin.template:
     src: "neofs-ir.service.bin.j2"
     dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
   when: not (neofs_ir__use_compose | bool)
-  notify:
-    - Restart NeoFS IR service
+  notify: [ 'Restart NeoFS IR service' ]
 
 - name: Copy dockerized systemd unit
   ansible.builtin.template:
     src: "neofs-ir.service.compose.j2"
     dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
   when: neofs_ir__use_compose | bool
-  notify:
-    - Restart NeoFS IR service
+  notify: [ 'Restart NeoFS IR service' ]
 
 - include: healthcheck.yml
 

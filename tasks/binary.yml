@@ -4,9 +4,9 @@
   ansible.builtin.get_url:
     url: "{{ neofs_ir__bin_url }}"
     dest: "{{ neofs_ir__bin_path }}"
+    force: yes
     owner: 'root'
     group: 'root'
     mode: '0755'
   when: not (neofs_ir__use_compose | bool)
-  notify:
-    - Restart NeoFS IR service
+  notify: [ 'Restart NeoFS IR service' ]

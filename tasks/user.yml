@@ -4,18 +4,16 @@
   ansible.builtin.group:
     name: "{{ neofs_ir__group }}"
     system: yes
-    state: 'present'
 
 - name: Create NeoFS IR user
   ansible.builtin.user:
     name: "{{ neofs_ir__user }}"
     group: "{{ neofs_ir__group }}"
     password: '*'
-    shell: /usr/sbin/nologin
+    shell: '/usr/sbin/nologin'
     home: "{{ neofs_ir__data_dir }}"
     system: yes
     skeleton: no
-    state: 'present'
 
 - name: Get UID for NeoFS IR user
   ansible.builtin.getent:
