@@ -8,9 +8,10 @@
     group: "{{ neofs_ir__group }}"
     mode: '0640'
 
-- name: Run a check
+- name: Waiting for node up
   ansible.builtin.shell: |
-      {{ neofs_ir__cli_bin_path }} control healthcheck -c {{ neofs_ir__control_api_config_path }} --ir
+    {{ neofs_ir__cli_bin_path }} control healthcheck -c {{ neofs_ir__control_api_config_path }} --ir
+  changed_when: False
   register: _neofs_ir_check_result
   until: _neofs_ir_check_result.rc == 0
   retries: 10
