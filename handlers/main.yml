@@ -1,7 +1,4 @@
 ---
 
 - name: Restart NeoFS IR service
-  ansible.builtin.systemd:
-    name: "neofs-ir{{ neofs_ir__instance }}.service"
-    state: 'restarted'
-    daemon_reload: yes
+  ansible.builtin.include_tasks: 'restart.yml'
