@@ -4,6 +4,7 @@
   ansible.builtin.systemd:
     name: "neofs-ir{{ neofs_ir__instance }}.service"
     state: 'restarted'
+    enabled: yes
     daemon_reload: yes
 
 - name: Waiting for node up

@@ -9,4 +9,4 @@
     group: 'root'
     mode: '0755'
   when: not (neofs_ir__use_compose | bool)
-  notify: [ 'Restart NeoFS IR service' ]
+  notify: [ 'Restart NeoFS IR' ]

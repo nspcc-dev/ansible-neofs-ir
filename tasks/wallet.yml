@@ -7,4 +7,4 @@
     owner: 'root'
     group: "{{ neofs_ir__group }}"
     mode: '0640'
-  notify: [ 'Restart NeoFS IR service' ]
+  notify: [ 'Restart NeoFS IR' ]
