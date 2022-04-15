@@ -1,3 +1,5 @@
+{{ ansible_managed | comment }}
+
 [Unit]
 Description=NeoFS InnerRing{{ neofs_ir__instance }} node
 Requires=network.target
@@ -7,12 +9,10 @@ Type=simple
 ExecStart={{ neofs_ir__bin_path }} -config {{ neofs_ir__conf_dir }}/config.yaml
 User={{ neofs_ir__user }}
 Group={{ neofs_ir__group }}
+WorkingDirectory={{ neofs_ir__data_dir }}
 Restart=always
 RestartSec=5
-StandardError=journal
-SyslogIdentifier=neofs-ir{{ neofs_ir__instance }}
 PrivateTmp=true
-WorkingDirectory={{ neofs_ir__data_dir }}
 
 [Install]
 WantedBy=multi-user.target
