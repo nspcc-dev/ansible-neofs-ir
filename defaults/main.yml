@@ -26,11 +26,8 @@ neofs_ir__governance_disable: false
 # Default bind address
 neofs_ir__bind_address: '0.0.0.0'
 
-neofs_ir__morph_rpc: 'http://localhost:40332'
-neofs_ir__morph_notification: 'ws://localhost:40332/ws'
-
-neofs_ir__mainnet_rpc: 'http://localhost:20332'
-neofs_ir__mainnet_notification: 'ws://localhost:20332/ws'
+neofs_ir__morph_rpc: 'ws://localhost:40332/ws'
+neofs_ir__mainnet_rpc: 'ws://localhost:20332/ws'
 
 neofs_ir__without_mainnet: False
 
