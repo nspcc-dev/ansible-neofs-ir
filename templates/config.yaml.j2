@@ -6,7 +6,6 @@ wallet:
 morph:
   endpoint:
     client: {{ neofs_ir__morph_rpc }}
-    notification: {{ neofs_ir__morph_notification }}
   validators:
 {% for s in neofs_ir__validators %}
     - {{ s }}
@@ -18,7 +17,6 @@ without_mainnet: True
 mainnet:
   endpoint:
     client: {{ neofs_ir__mainnet_rpc }}
-    notification: {{ neofs_ir__mainnet_notification }}
 {% endif %}
 
 contracts:
