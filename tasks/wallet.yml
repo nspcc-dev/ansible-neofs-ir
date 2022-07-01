@@ -1,10 +1,10 @@
 ---
 
-- name: Copy wallet
+- name: Copy NeoFS IR wallet
   ansible.builtin.copy:
-    content: "{{ neofs_ir__wallet }}"
-    dest: "{{ neofs_ir__wallet_path }}"
+    content: '{{ neofs_ir__wallet_content }}'
+    dest: '{{ neofs_ir__wallet_path }}'
     owner: 'root'
-    group: "{{ neofs_ir__group }}"
+    group: '{{ neofs_ir__group }}'
     mode: '0640'
   notify: [ 'Restart NeoFS IR' ]
