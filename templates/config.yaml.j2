@@ -1,3 +1,22 @@
+logger:
+  level: {{ neofs_ir__loglevel }}
+
+{% if neofs_ir__pprof_enabled | bool %}
+profiler:
+  address: {{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}
+{% if neofs_ir__pprof_shutdown_timeout|length > 0 %}
+  shutdown_timeout: {{ neofs_ir__pprof_shutdown_timeout }}
+{% endif %}
+{% endif %}
+
+{% if neofs_ir__prometheus_enabled | bool %}
+metrics:
+  address: {{ neofs_ir__prometheus_address }}:{{ neofs_ir__prometheus_port }}
+{% if neofs_ir__prometheus_shutdown_timeout|length > 0 %}
+  shutdown_timeout: {{ neofs_ir__prometheus_shutdown_timeout }}
+{% endif %}
+{% endif %}
+
 wallet:
   path: {{ neofs_ir__wallet_path }}
   address: {{ neofs_ir__wallet_address }}
@@ -6,6 +25,9 @@ wallet:
 morph:
   endpoint:
     client: {{ neofs_ir__morph_rpc }}
+{% if neofs_ir__morph_rpc_dial_timeout|length > 0 %}
+  dial_timeout: {{ neofs_ir__morph_rpc_dial_timeout }}
+{% endif %}
   validators:
 {% for s in neofs_ir__validators %}
     - {{ s }}
@@ -17,16 +39,23 @@ without_mainnet: True
 mainnet:
   endpoint:
     client: {{ neofs_ir__mainnet_rpc }}
+{% if neofs_ir__mainnet_rpc_dial_timeout|length > 0 %}
+  dial_timeout: {{ neofs_ir__mainnet_rpc_dial_timeout }}
+{% endif %}
 {% endif %}
 
+{% if neofs_ir__contracts|length > 0 %}
 contracts:
 {% for contract in neofs_ir__contracts %}
   {{ contract }}: {{ neofs_ir__contracts[contract] }}
 {% endfor %}
+{% if neofs_ir__alphabet|length > 0 %}
   alphabet:
 {% for letter in neofs_ir__alphabet %}
     {{ letter }}: {{ neofs_ir__alphabet[letter] }}
 {% endfor %}
+{% endif %}
+{% endif %}
 
 {% if neofs_ir__governance_disable | bool %}
 governance:
@@ -42,64 +71,81 @@ control:
 {% endfor %}
 {% endif %}
   grpc:
-    endpoint: {{ neofs_ir__control_endpoint_host }}:{{ neofs_ir__control_endpoint_port }}
+    endpoint: {{ neofs_ir__control_address }}:{{ neofs_ir__control_port }}
 {% endif %}
 
 timers:
-  emit: {{ neofs_ir__emit_timer }}
+  emit: {{ neofs_ir__timers_emit }}
   stop_estimation:
-    mul: 1
-    div: 4
+    mul: {{ neofs_ir__timers_stop_estimation_mul }}
+    div: {{ neofs_ir__timers_stop_estimation_div }}
   collect_basic_income:
-    mul: 1
-    div: 2
+    mul: {{ neofs_ir__timers_collect_basic_income_mul }}
+    div: {{ neofs_ir__timers_collect_basic_income_div }}
   distribute_basic_income:
-    mul: 3
-    div: 4
+    mul: {{ neofs_ir__timers_distribute_basic_income_mul }}
+    div: {{ neofs_ir__timers_distribute_basic_income_div }}
 
 emit:
   storage:
     amount: 400000000
+    amount: {{ neofs_ir__emit_storage_amount }}
+  mint:
+    value: {{ neofs_ir__emit_mint_cache_size }}
+    cache_size: {{ neofs_ir__emit_mint_threshold }}
+    threshold: {{ neofs_ir__emit_mint_value }}
+  gas:
+    balance_threshold: {{ neofs_ir__emit_gas_balance_threshold }}
 
 audit:
+  timeout:
+    get: {{ neofs_ir__audit_timeout_get }}
+    head: {{ neofs_ir__audit_timeout_head }}
+    rangehash: {{ neofs_ir__audit_timeout_rangehash }}
+    search: {{ neofs_ir__audit_timeout_search }}
+  task:
+    exec_pool_size: {{ neofs_ir__audit_task_exec_pool_size }}
+    queue_capacity:  {{ neofs_ir__audit_task_queue_capacity }}
   pdp:
+    pairs_pool_size: {{ neofs_ir__audit_pdp_pairs_pool_size }}
     max_sleep_interval: 500ms
+    max_sleep_interval: {{ neofs_ir__audit_pdp_max_sleep_interval }}
+  por:
+    pool_size: {{ neofs_ir__audit_por_pool_size }}
 
+{% if neofs_ir__netmap_cleaner_enabled | bool %}
 netmap_cleaner:
   enabled: true
-  threshold: 3
+  threshold: {{ neofs_ir__netmap_cleaner_threshold }}
+{% endif %}
 
 node:
   persistent_state:
     path: {{ neofs_ir__persistent_state_path }}
 
+{% if neofs_ir__locodedb_path|length > 0 %}
 locode:
   db:
     path: {{ neofs_ir__locodedb_path }}
+{% endif %}
 
 workers:
-  netmap: 100
-  balance: 100
-  neofs: 100
-  container: 100
-  alphabet: 100
-
-logger:
-  level: {{ neofs_ir__loglevel }}
-
-{% if neofs_ir__pprof_enabled | bool %}
-profiler:
-  enabled: true
-  address: {{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}
-{% endif %}
-
-{% if neofs_ir__prometheus_enabled | bool %}
-metrics:
-  enabled: true
-  address: {{ neofs_ir__prometheus_address }}:{{ neofs_ir__prometheus_port }}
-{% endif %}
+  netmap: {{ neofs_ir__workers_netmap }}
+  balance: {{ neofs_ir__workers_balance }}
+  neofs: {{ neofs_ir__workers_neofs }}
+  container: {{ neofs_ir__workers_container }}
+  alphabet: {{ neofs_ir__workers_alphabet }}
+  reputation: {{ neofs_ir__workers_reputation }}
+  subnet: {{ neofs_ir__workers_subnet }}
 
 fee:
   side_chain: {{ neofs_ir__sidechain_fee }}
-  main_chain: {{ neofs_ir__mainchain_fee }} # default is 50000000
+  main_chain: {{ neofs_ir__mainchain_fee }}
   named_container_register: {{ neofs_ir__named_container_register_fee }}
+
+settlement:
+  basic_income_rate: {{ neofs_ir__settlement_basic_income_rate }}
+  audit_fee: {{ neofs_ir__settlement_audit_fee }}
+
+indexer:
+  cache_timeout: {{ neofs_ir__indexer_cache_timeout }}
