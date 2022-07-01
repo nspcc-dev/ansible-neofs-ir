@@ -1,82 +1,79 @@
 ---
 
-- ansible.builtin.include_tasks: 'user.yml'
+- ansible.builtin.include_tasks: user.yml
+
 
 - name: Create configuration directory parent
   ansible.builtin.file:
     state: directory
-    path: "{{ item }}"
+    path: '{{ neofs_ir__conf_dir | realpath | dirname }}'
     owner: 'root'
     group: 'root'
     mode: '0755'
-  with_items:
-    - "{{ neofs_ir__conf_dir | realpath | dirname }}"
 
 - name: Create configuration directory
   ansible.builtin.file:
     state: directory
-    path: "{{ item }}"
+    path: '{{ neofs_ir__conf_dir }}'
     owner: 'root'
-    group: "{{ neofs_ir__group }}"
+    group: '{{ neofs_ir__group }}'
     mode: '0750'
-  with_items:
-    - "{{ neofs_ir__conf_dir }}"
 
-- ansible.builtin.include_tasks: 'wallet.yml'
+- name: Copy NeoFS IR config
+  ansible.builtin.template:
+    src: 'config.yml.j2'
+    dest: '{{ neofs_ir__config_path }}'
+    owner: 'root'
+    group: '{{ neofs_ir__group }}'
+    mode: '0640'
+  notify: [ 'Restart NeoFS IR' ]
 
-- name: Download locode database archive
-  ansible.builtin.unarchive:
-    src: "{{ neofs_ir__locodedb_download_url }}"
-    remote_src: yes
-    dest: "{{ neofs_ir__data_dir }}"
+- name: Download locode database
+  ansible.builtin.get_url:
+    url: '{{ neofs_ir__locodedb_url }}'
+    dest: '{{ neofs_ir__locodedb_path }}'
+    force: yes
     owner: 'root'
     group: 'root'
     mode: '0644'
   notify: [ 'Restart NeoFS IR' ]
 
-- name: Copy NeoFS IR config
-  ansible.builtin.template:
-    src: 'config.yaml.j2'
-    dest: "{{ neofs_ir__conf_dir }}/config.yaml"
-    owner: 'root'
-    group: "{{ neofs_ir__group }}"
-    mode: '0640'
-  notify: [ 'Restart NeoFS IR' ]
+- ansible.builtin.include_tasks: wallet.yml
 
-- ansible.builtin.include_tasks: 'binary.yml'
+- ansible.builtin.include_tasks: binary.yml
 
-- ansible.builtin.include_tasks: 'cli.yml'
+- ansible.builtin.include_tasks: cli.yml
 
 - name: Copy compose file
   ansible.builtin.template:
     src: 'docker-compose.yml.j2'
-    dest: "{{ neofs_ir__conf_dir }}/docker-compose.yml"
+    dest: '{{ neofs_ir__conf_dir }}/docker-compose.yml'
     owner: 'root'
-    group: "{{ neofs_ir__group }}"
+    group: '{{ neofs_ir__group }}'
     mode: '0640'
-  when: neofs_ir__use_compose | bool
   notify: [ 'Restart NeoFS IR' ]
+  when: neofs_ir__use_compose | bool
 
 - name: Copy regular systemd unit
   ansible.builtin.template:
-    src: "neofs-ir.service.j2"
-    dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
-  when: not (neofs_ir__use_compose | bool)
+    src: 'neofs-ir.service.j2'
+    dest: '/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service'
   notify: [ 'Restart NeoFS IR' ]
+  when: not (neofs_ir__use_compose | bool)
 
 - name: Copy dockerized systemd unit
   ansible.builtin.template:
-    src: "neofs-ir_compose.service.j2"
-    dest: "/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service"
-  when: neofs_ir__use_compose | bool
+    src: 'neofs-ir_compose.service.j2'
+    dest: '/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service'
   notify: [ 'Restart NeoFS IR' ]
+  when: neofs_ir__use_compose | bool
 
-- include: healthcheck.yml
+- ansible.builtin.include_tasks: healthcheck.yml
 
 - name: Force debops.ferm run
   ansible.builtin.include_role:
     name: debops.debops.ferm
   vars:
     ferm__dependent_rules:
-      - "{{ neofs_ir__ferm__dependent_rules }}"
+      - '{{ neofs_ir__ferm__dependent_rules }}'
   when: neofs_ir__debops_ferm_import | bool

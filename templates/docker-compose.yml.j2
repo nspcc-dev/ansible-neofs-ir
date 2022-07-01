@@ -11,7 +11,7 @@ services:
     stop_signal: SIGKILL
     user: "{{ getent_passwd[neofs_ir__user][1] }}:{{ getent_group[neofs_ir__user][1] }}"
     entrypoint: /bin/neofs-ir
-    command: -config {{ neofs_ir__conf_dir }}/config.yaml
+    command: -config {{ neofs_ir__config_path }}
     volumes:
     - {{ neofs_ir__data_dir }}:{{ neofs_ir__data_dir }}
     - {{ neofs_ir__conf_dir }}:{{ neofs_ir__conf_dir }}

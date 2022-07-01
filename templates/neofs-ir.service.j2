@@ -6,7 +6,7 @@ Requires=network.target
 
 [Service]
 Type=simple
-ExecStart={{ neofs_ir__bin_path }} -config {{ neofs_ir__conf_dir }}/config.yaml
+ExecStart={{ neofs_ir__bin_path }} --config {{ neofs_ir__config_path }}
 User={{ neofs_ir__user }}
 Group={{ neofs_ir__group }}
 WorkingDirectory={{ neofs_ir__data_dir }}

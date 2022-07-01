@@ -1,118 +1,120 @@
 ---
 
-# User and group for NeoFS to run and own files
-neofs_ir__user: "neofs-ir{{ neofs_ir__instance }}"
-neofs_ir__group: "neofs-ir{{ neofs_ir__instance }}"
+neofs_ir__version: '0.28.3'
+neofs_ir__bin_url: 'https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-ir-amd64'
+neofs_ir__cli_bin_url: 'https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-cli-amd64'
+neofs_ir__docker_image: 'nspccdev/neofs-ir:{{ neofs_ir__version }}'
+
+neofs_ir__locodedb_version: 'v0.2.1'
+neofs_ir__locodedb_url: 'https://github.com/nspcc-dev/neofs-locode-db/releases/download/{{ neofs_ir__locodedb_version }}/locode_db'
 
 # Instance name to have multiple NeoFS nodes on the same host
 neofs_ir__instance: ''
 
-# Directory for configuration files and keys
-neofs_ir__conf_dir: "/etc/neofs/ir{{ neofs_ir__instance }}"
+neofs_ir__user: 'neofs-ir{{ neofs_ir__instance }}'
+neofs_ir__group: 'neofs-ir{{ neofs_ir__instance }}'
+
+neofs_ir__conf_dir: '/etc/neofs/ir{{ neofs_ir__instance }}'
+neofs_ir__bin_path: '/usr/bin/neofs-ir'
+neofs_ir__cli_bin_path: '/usr/bin/neofs-cli'
+neofs_ir__locodedb_path: '{{ neofs_ir__data_dir }}/locode.db'
+neofs_ir__control_api_config_path: '{{ neofs_ir__conf_dir }}/control.yml'
+neofs_ir__config_path: '{{ neofs_ir__conf_dir }}/config.yml'
 
 # Directory for databases and processing results
-neofs_ir__data_dir: "/var/lib/neofs/neofs-ir{{ neofs_ir__instance }}"
+neofs_ir__data_dir: '/var/lib/neofs/ir{{ neofs_ir__instance }}'
 
-neofs_ir__loglevel: 'info'
+neofs_ir__wallet_content: ''
+neofs_ir__wallet_path: '{{ neofs_ir__conf_dir }}/wallet.json'
+neofs_ir__wallet_address: ''
+neofs_ir__wallet_passwd: ''
 
-neofs_ir__wallet: "/local/path/to/wallet"
-neofs_ir__wallet_path: "{{ neofs_ir__conf_dir }}/wallet.json"
-neofs_ir__wallet_address: ""
-neofs_ir__wallet_passwd: ""
-
-# Should be true to disable governance contract
-neofs_ir__governance_disable: false
-
-# Default bind address
-neofs_ir__bind_address: '0.0.0.0'
-
-neofs_ir__morph_rpc: 'ws://localhost:40332/ws'
-neofs_ir__mainnet_rpc: 'ws://localhost:20332/ws'
-
-neofs_ir__without_mainnet: False
-
-neofs_ir__locodedb_version: 'v0.1.0'
-neofs_ir__locodedb_download_url:
-  "https://github.com/nspcc-dev/neofs-locode-db/releases/download/{{ neofs_ir__locodedb_version }}/locode.db.tar.gz"
-
-neofs_ir__locodedb_path: "{{ neofs_ir__data_dir }}/locode.db"
-neofs_ir__persistent_state_path: "{{ neofs_ir__data_dir }}/.state"
-
-# NeoFS Cli options
-neofs_ir__cli_bin_url: "https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-cli-amd64"
-neofs_ir__cli_bin_path: '/usr/local/bin/neofs-cli'
-
-neofs_ir__control_api_config_path: "{{ neofs_ir__conf_dir }}/control.yml"
-
-# Contract hashes might be auto-negotiated from NNS. One may
-# leave this list empty, and Inner Ring node will obtain the hashes.
-neofs_ir__contracts:
-  netmap: '600270a6fd666dc137fa3e62c9d2606b75aeb298'
-  balance: '2835a2d2a28ffc8866840df7aafda5780c7514a3'
-  container: '08ebc0b968cdce2851f1a1d2fe9340e77b1f0f6c'
-  neofs: '37a32e1bf20ed5141bc5748892a82f14e75a8e22'
-  audit: '27571287757e0e9809d01799c9f049a8ae5952ce'
-  proxy: 'dedf58b489e5af01a1a2089393102d46d74806ac'
-
-# Alphabet hashes might be auto-negotiated from NNS. One may
-# leave this list empty, and Inner Ring node will obtain the hashes.
-neofs_ir__alphabet:
-  az: 'dc4c2e03f2ca806a82415407cd2264338cc751b4'
-  buky: '1e01771dfb5cb499f194f54d53bc4d0a37fca393'
-  vedi: 'c4c68a82ec161658ccf41ac849bc587ebabc4147'
-  glagoli: '7c718d032ad348820497c619f6d2f00011b22cf5'
-  dobro: '88b3a5b5de99aae9308408301e9b64620fe9f999'
-  yest: '2f78667749d5da59ea622f5f809022a786f8f700'
-  zhivete: '06f739fa714d23d1ce8a569595812cf8f9023b1e'
-
-neofs_ir__validators:
-  - '026fa34ec057d74c2fdf1a18e336d0bd597ea401a0b2ad57340d5c220d09f44086'
-  - '039a9db2a30942b1843db673aeb0d4fd6433f74cec1d879de6343cb9fcf7628fa4'
-  - '0366d255e7ce23ea6f7f1e4bedf5cbafe598705b47e6ec213ef13b2f0819e8ab33'
-  - '023f9cb7bbe154d529d5c719fdc39feaa831a43ae03d2a4280575b60f52fa7bc52'
-  - '039ba959e0ab6dc616df8b803692f1c30ba9071b76b05535eb994bf5bbc402ad5f'
-  - '035a2a18cddafa25ad353dea5e6730a1b9fcb4b918c4a0303c4387bb9c3b816adf'
-  - '031f4d9c66f2ec348832c48fd3a16dfaeb59e85f557ae1e07f6696d0375c64f97b'
-
-
-neofs_ir__sidechain_fee: 500000000
-neofs_ir__mainchain_fee: 25000000
-neofs_ir__named_container_register_fee: 2500000000
-
-# Control API configuration
+# Control API
 neofs_ir__control_enabled: False
-neofs_ir__control_endpoint_port: '8090'
-neofs_ir__control_endpoint_host: 'localhost'
-neofs_ir__control_authorized_keys: []
+neofs_ir__control_address: 'localhost'
+neofs_ir__control_port: '8090'
 neofs_ir__control_allow: []
 neofs_ir__control_group_allow: []
 neofs_ir__control_host_allow: []
 
-neofs_ir__emit_timer: 240
-
-# Ports and options for each service
-neofs_ir__prometheus_enabled: False
-neofs_ir__prometheus_port: '6662'
-neofs_ir__prometheus_address: 'localhost'
-neofs_ir__prometheus_allow: []
-neofs_ir__prometheus_group_allow: []
-neofs_ir__prometheus_host_allow: []
+neofs_ir__metrics_enabled: False
+neofs_ir__metrics_address: 'localhost'
+neofs_ir__metrics_port: '6662'
+neofs_ir__metrics_allow: []
+neofs_ir__metrics_group_allow: []
+neofs_ir__metrics_host_allow: []
 
 neofs_ir__pprof_enabled: False
-neofs_ir__pprof_port: '6661'
 neofs_ir__pprof_address: 'localhost'
+neofs_ir__pprof_port: '6661'
 neofs_ir__pprof_allow: []
 neofs_ir__pprof_group_allow: []
 neofs_ir__pprof_host_allow: []
 
-# NeoFS options
-neofs_ir__version: '0.27.0'
-neofs_ir__docker_image: "nspccdev/neofs-ir:{{ neofs_ir__version }}"
-neofs_ir__bin_url: "https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-ir-amd64"
-neofs_ir__bin_path: '/usr/local/bin/neofs-ir'
 
-# Systemd unit may use docker compose to run NeoFS IR in container, instead of
-# local binary.
+neofs_ir__default_config:
+  logger:
+    level: info
+
+  wallet:
+    path: '{{ neofs_ir__wallet_path }}'
+    address: '{{ neofs_ir__wallet_address }}'
+    password: '{{ neofs_ir__wallet_passwd }}'
+
+  morph:
+    endpoint:
+      client: 'ws://localhost:40332/ws'
+    validators:
+      - '026fa34ec057d74c2fdf1a18e336d0bd597ea401a0b2ad57340d5c220d09f44086'
+      - '039a9db2a30942b1843db673aeb0d4fd6433f74cec1d879de6343cb9fcf7628fa4'
+      - '0366d255e7ce23ea6f7f1e4bedf5cbafe598705b47e6ec213ef13b2f0819e8ab33'
+      - '023f9cb7bbe154d529d5c719fdc39feaa831a43ae03d2a4280575b60f52fa7bc52'
+      - '039ba959e0ab6dc616df8b803692f1c30ba9071b76b05535eb994bf5bbc402ad5f'
+      - '035a2a18cddafa25ad353dea5e6730a1b9fcb4b918c4a0303c4387bb9c3b816adf'
+      - '031f4d9c66f2ec348832c48fd3a16dfaeb59e85f557ae1e07f6696d0375c64f97b'
+
+  mainnet:
+    endpoint:
+      client: 'ws://localhost:20332/ws'
+  
+  control:
+    grpc:
+      endpoint: '{{ neofs_ir__control_address }}:{{ neofs_ir__control_port }}'
+  
+  node:
+    persistent_state:
+      path: '{{ neofs_ir__data_dir }}/state'
+  
+  locode:
+    db:
+      path: '{{ neofs_ir__locodedb_path }}'
+
+  fee:
+    main_chain: 25000000
+    side_chain: 500000000
+    named_container_register: 2500000000
+  
+  profiler:
+    enabled: '{{ neofs_ir__pprof_enabled }}'
+    address: '{{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}'
+  
+  metrics:
+    enabled: '{{ neofs_ir__metrics_enabled }}'
+    address: '{{ neofs_ir__metrics_address }}:{{ neofs_ir__metrics_port }}'
+  
+
+neofs_ir__config: []
+neofs_ir__group_config: []
+neofs_ir__host_config: []
+
+neofs_ir__combined_config: '{{ 
+  neofs_ir__config + 
+  neofs_ir__group_config +
+  neofs_ir__host_config }}'
+
+
+# Systemd unit may use docker compose to run NeoFS IR in container,
+# instead of local binary.
 neofs_ir__use_compose: False
 
 # Force debops.ferm run via role import
@@ -123,16 +125,16 @@ neofs_ir__debops_ferm_import: False
 # firewall configuration to be applied with debops.ferm role
 neofs_ir__ferm__dependent_rules:
   - type: 'accept'
-    name: "neofs-ir{{ neofs_ir__instance }}_prometheus"
-    dport: [ '{{ neofs_ir__prometheus_port }}' ]
-    daddr: [ '{{ neofs_ir__prometheus_address }}' ]
-    saddr: '{{ neofs_ir__prometheus_allow + neofs_ir__prometheus_group_allow + neofs_ir__prometheus_host_allow }}'
+    name: 'neofs-ir{{ neofs_ir__instance }}_metrics'
+    dport: [ '{{ neofs_ir__metrics_port }}' ]
+    daddr: [ '{{ neofs_ir__metrics_address }}' ]
+    saddr: '{{ neofs_ir__metrics_allow + neofs_ir__metrics_group_allow + neofs_ir__metrics_host_allow }}'
     protocol: 'tcp'
     role: 'neofs-ir'
-    rule_state: "{{ 'present' if neofs_ir__prometheus_enabled else 'absent' }}"
+    rule_state: "{{ 'present' if neofs_ir__metrics_enabled else 'absent' }}"
 
   - type: 'accept'
-    name: "neofs-ir{{ neofs_ir__instance }}_pprof"
+    name: 'neofs-ir{{ neofs_ir__instance }}_pprof'
     dport: [ '{{ neofs_ir__pprof_port }}' ]
     daddr: [ '{{ neofs_ir__pprof_address }}' ]
     saddr: '{{ neofs_ir__pprof_allow + neofs_ir__pprof_group_allow + neofs_ir__pprof_host_allow }}'
@@ -141,9 +143,9 @@ neofs_ir__ferm__dependent_rules:
     rule_state: "{{ 'present' if neofs_ir__pprof_enabled else 'absent' }}"
 
   - type: 'accept'
-    name: "neofs-ir{{ neofs_ir__instance }}_control"
-    dport: [ '{{ neofs_ir__control_endpoint_port }}' ]
-    daddr: [ '{{ neofs_ir__control_endpoint_host }}' ]
+    name: 'neofs-ir{{ neofs_ir__instance }}_control'
+    dport: [ '{{ neofs_ir__control_port }}' ]
+    daddr: [ '{{ neofs_ir__control_host }}' ]
     saddr: '{{ neofs_ir__control_allow + neofs_ir__control_group_allow + neofs_ir__control_host_allow }}'
     protocol: 'tcp'
     role: 'neofs-ir'

@@ -2,25 +2,25 @@
 
 - name: Create NeoFS IR group
   ansible.builtin.group:
-    name: "{{ neofs_ir__group }}"
+    name: '{{ neofs_ir__group }}'
     system: yes
 
 - name: Create NeoFS IR user
   ansible.builtin.user:
-    name: "{{ neofs_ir__user }}"
-    group: "{{ neofs_ir__group }}"
+    name: '{{ neofs_ir__user }}'
+    group: '{{ neofs_ir__group }}'
     password: '*'
     shell: '/usr/sbin/nologin'
-    home: "{{ neofs_ir__data_dir }}"
+    home: '{{ neofs_ir__data_dir }}'
     system: yes
     skeleton: no
 
 - name: Get UID for NeoFS IR user
   ansible.builtin.getent:
     database: passwd
-    key: "{{ neofs_ir__user }}"
+    key: '{{ neofs_ir__user }}'
 
 - name: Get GID for NeoFS IR user
   ansible.builtin.getent:
     database: group
-    key: "{{ neofs_ir__group }}"
+    key: '{{ neofs_ir__group }}'
