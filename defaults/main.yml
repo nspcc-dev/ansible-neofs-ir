@@ -15,11 +15,11 @@ neofs_ir__user: 'neofs-ir{{ neofs_ir__instance }}'
 neofs_ir__group: 'neofs-ir{{ neofs_ir__instance }}'
 
 neofs_ir__conf_dir: '/etc/neofs/ir{{ neofs_ir__instance }}'
+neofs_ir__config_path: '{{ neofs_ir__conf_dir }}/config.yml'
 neofs_ir__bin_path: '/usr/bin/neofs-ir'
 neofs_ir__cli_bin_path: '/usr/bin/neofs-cli'
 neofs_ir__locodedb_path: '{{ neofs_ir__data_dir }}/locode.db'
 neofs_ir__control_api_config_path: '{{ neofs_ir__conf_dir }}/control.yml'
-neofs_ir__config_path: '{{ neofs_ir__conf_dir }}/config.yml'
 
 # Directory for databases and processing results
 neofs_ir__data_dir: '/var/lib/neofs/ir{{ neofs_ir__instance }}'
@@ -29,30 +29,29 @@ neofs_ir__wallet_path: '{{ neofs_ir__conf_dir }}/wallet.json'
 neofs_ir__wallet_address: ''
 neofs_ir__wallet_passwd: ''
 
-# Control API
 neofs_ir__control_enabled: False
 neofs_ir__control_address: 'localhost'
-neofs_ir__control_port: '8090'
+neofs_ir__control_port: 8090
 neofs_ir__control_allow: []
 neofs_ir__control_group_allow: []
 neofs_ir__control_host_allow: []
 
 neofs_ir__metrics_enabled: False
 neofs_ir__metrics_address: 'localhost'
-neofs_ir__metrics_port: '6662'
+neofs_ir__metrics_port: 6662
 neofs_ir__metrics_allow: []
 neofs_ir__metrics_group_allow: []
 neofs_ir__metrics_host_allow: []
 
 neofs_ir__pprof_enabled: False
 neofs_ir__pprof_address: 'localhost'
-neofs_ir__pprof_port: '6661'
+neofs_ir__pprof_port: 6661
 neofs_ir__pprof_allow: []
 neofs_ir__pprof_group_allow: []
 neofs_ir__pprof_host_allow: []
 
 
-neofs_ir__default_config:
+neofs_ir__raw_config:
   logger:
     level: info
 
@@ -76,15 +75,11 @@ neofs_ir__default_config:
   mainnet:
     endpoint:
       client: 'ws://localhost:20332/ws'
-  
-  control:
-    grpc:
-      endpoint: '{{ neofs_ir__control_address }}:{{ neofs_ir__control_port }}'
-  
+
   node:
     persistent_state:
       path: '{{ neofs_ir__data_dir }}/state'
-  
+
   locode:
     db:
       path: '{{ neofs_ir__locodedb_path }}'
@@ -93,21 +88,32 @@ neofs_ir__default_config:
     main_chain: 25000000
     side_chain: 500000000
     named_container_register: 2500000000
-  
-  profiler:
-    enabled: '{{ neofs_ir__pprof_enabled }}'
-    address: '{{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}'
-  
-  metrics:
-    enabled: '{{ neofs_ir__metrics_enabled }}'
-    address: '{{ neofs_ir__metrics_address }}:{{ neofs_ir__metrics_port }}'
-  
+
+neofs_ir__default_config:
+  - enabled: '{{ neofs_ir__control_enabled }}'
+    options:
+      control:
+        grpc:
+          endpoint: '{{ neofs_ir__control_address }}:{{ neofs_ir__control_port }}'
+
+  - enabled: '{{ neofs_ir__pprof_enabled }}'
+    options:
+      profiler:
+        enabled: True
+        address: '{{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}'
+
+  - enabled: '{{ neofs_ir__metrics_enabled }}'
+    options:
+      metrics:
+        enabled: True
+        address: '{{ neofs_ir__metrics_address }}:{{ neofs_ir__metrics_port }}'
 
 neofs_ir__config: []
 neofs_ir__group_config: []
 neofs_ir__host_config: []
 
 neofs_ir__combined_config: '{{ 
+  neofs_ir__default_config +
   neofs_ir__config + 
   neofs_ir__group_config +
   neofs_ir__host_config }}'

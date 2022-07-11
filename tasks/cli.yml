@@ -1,6 +1,6 @@
 ---
 
-- name: Install neofs-cli binary
+- name: Download neofs-cli binary
   ansible.builtin.get_url:
     url: '{{ neofs_ir__cli_bin_url }}'
     dest: '{{ neofs_ir__cli_bin_path }}'

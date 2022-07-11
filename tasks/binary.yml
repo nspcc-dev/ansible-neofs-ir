@@ -1,6 +1,6 @@
 ---
 
-- name: Install NeoFS IR binary
+- name: Download NeoFS IR binary
   ansible.builtin.get_url:
     url: '{{ neofs_ir__bin_url }}'
     dest: '{{ neofs_ir__bin_path }}'
