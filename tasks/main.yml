@@ -2,7 +2,6 @@
 
 - ansible.builtin.include_tasks: user.yml
 
-
 - name: Create configuration directory parent
   ansible.builtin.file:
     state: directory
@@ -18,6 +17,8 @@
     owner: 'root'
     group: '{{ neofs_ir__group }}'
     mode: '0750'
+
+- ansible.builtin.include_tasks: wallet.yml
 
 - name: Copy NeoFS IR config
   ansible.builtin.template:
@@ -37,8 +38,6 @@
     group: 'root'
     mode: '0644'
   notify: [ 'Restart NeoFS IR' ]
-
-- ansible.builtin.include_tasks: wallet.yml
 
 - ansible.builtin.include_tasks: binary.yml
 
