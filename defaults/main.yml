@@ -1,6 +1,6 @@
 ---
 
-neofs_ir__version: '0.28.3'
+neofs_ir__version: '0.30.0'
 neofs_ir__bin_url: 'https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-ir-amd64'
 neofs_ir__cli_bin_url: 'https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-cli-amd64'
 neofs_ir__docker_image: 'nspccdev/neofs-ir:{{ neofs_ir__version }}'
@@ -88,6 +88,35 @@ neofs_ir__raw_config:
     main_chain: 25000000
     side_chain: 500000000
     named_container_register: 2500000000
+  timers:
+    emit: 240
+    stop_estimation:
+      mul: 1
+      div: 4
+    collect_basic_income:
+      mul: 1
+      div: 2
+    distribute_basic_income:
+      mul: 3
+      div: 4
+  emit:
+    storage:
+      amount: 400000000
+    gas:
+      balance_threshold: 100000000000
+  audit:
+    pdp:
+      max_sleep_interval: 500ms
+  netmap_cleaner:
+    enabled: true
+    threshold: 3
+  workers:
+    netmap: 100
+    balance: 100
+    neofs: 100
+    container: 100
+    alphabet: 100
+
 
 neofs_ir__default_config:
   - enabled: '{{ neofs_ir__control_enabled }}'
@@ -98,13 +127,13 @@ neofs_ir__default_config:
 
   - enabled: '{{ neofs_ir__pprof_enabled }}'
     options:
-      profiler:
+      pprof:
         enabled: True
         address: '{{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}'
 
   - enabled: '{{ neofs_ir__metrics_enabled }}'
     options:
-      metrics:
+      prometheus:
         enabled: True
         address: '{{ neofs_ir__metrics_address }}:{{ neofs_ir__metrics_port }}'
 
@@ -151,7 +180,7 @@ neofs_ir__ferm__dependent_rules:
   - type: 'accept'
     name: 'neofs-ir{{ neofs_ir__instance }}_control'
     dport: [ '{{ neofs_ir__control_port }}' ]
-    daddr: [ '{{ neofs_ir__control_host }}' ]
+    daddr: [ '{{ neofs_ir__control_address }}' ]
     saddr: '{{ neofs_ir__control_allow + neofs_ir__control_group_allow + neofs_ir__control_host_allow }}'
     protocol: 'tcp'
     role: 'neofs-ir'
