@@ -24,10 +24,10 @@ neofs_ir__control_api_config_path: '{{ neofs_ir__conf_dir }}/control.yml'
 # Directory for databases and processing results
 neofs_ir__data_dir: '/var/lib/neofs/ir{{ neofs_ir__instance }}'
 
-neofs_ir__wallet_content: ''
+neofs_ir__wallet_struct: ''
 neofs_ir__wallet_path: '{{ neofs_ir__conf_dir }}/wallet.json'
 neofs_ir__wallet_address: ''
-neofs_ir__wallet_passwd: ''
+neofs_ir__wallet_password: ''
 
 neofs_ir__control_enabled: False
 neofs_ir__control_address: 'localhost'
@@ -58,7 +58,7 @@ neofs_ir__raw_config:
   wallet:
     path: '{{ neofs_ir__wallet_path }}'
     address: '{{ neofs_ir__wallet_address }}'
-    password: '{{ neofs_ir__wallet_passwd }}'
+    password: '{{ neofs_ir__wallet_password }}'
 
   morph:
     endpoint:
