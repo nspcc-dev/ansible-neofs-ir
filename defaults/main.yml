@@ -127,17 +127,17 @@ neofs_ir__default_config:
         grpc:
           endpoint: '{{ neofs_ir__control_address }}:{{ neofs_ir__control_port }}'
 
-  - enabled: '{{ neofs_ir__pprof_enabled }}'
-    options:
-      pprof:
-        enabled: True
-        address: '{{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}'
-
   - enabled: '{{ neofs_ir__metrics_enabled }}'
     options:
       prometheus:
         enabled: True
         address: '{{ neofs_ir__metrics_address }}:{{ neofs_ir__metrics_port }}'
+
+  - enabled: '{{ neofs_ir__pprof_enabled }}'
+    options:
+      pprof:
+        enabled: True
+        address: '{{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}'
 
 neofs_ir__config: []
 neofs_ir__group_config: []
