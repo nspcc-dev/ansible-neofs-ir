@@ -9,7 +9,7 @@ services:
     hostname: neofs-ir{{ neofs_ir__instance }}
     network_mode: host
     stop_signal: SIGKILL
-    user: "{{ getent_passwd[neofs_ir__user][1] }}:{{ getent_group[neofs_ir__user][1] }}"
+    user: '{{ getent_passwd[neofs_ir__user][1] }}:{{ getent_group[neofs_ir__user][1] }}'
     entrypoint: /bin/neofs-ir
     command: --config {{ neofs_ir__config_path }}
     volumes:
