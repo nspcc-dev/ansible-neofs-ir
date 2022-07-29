@@ -1,6 +1,6 @@
 ---
 
-neofs_ir__version: '0.30.0'
+neofs_ir__version: '0.30.1'
 neofs_ir__bin_url: 'https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-ir-amd64'
 neofs_ir__cli_bin_url: 'https://github.com/nspcc-dev/neofs-node/releases/download/v{{ neofs_ir__version }}/neofs-cli-amd64'
 neofs_ir__docker_image: 'nspccdev/neofs-ir:{{ neofs_ir__version }}'
