@@ -8,6 +8,9 @@ neofs_ir__docker_image: 'nspccdev/neofs-ir:{{ neofs_ir__version }}'
 neofs_ir__locodedb_version: 'v0.2.1'
 neofs_ir__locodedb_url: 'https://github.com/nspcc-dev/neofs-locode-db/releases/download/{{ neofs_ir__locodedb_version }}/locode_db'
 
+# Flag to skip binaries download
+neofs_ir__binaries_download: True
+
 # Instance name to have multiple NeoFS nodes on the same host
 neofs_ir__instance: ''
 
@@ -187,3 +190,4 @@ neofs_ir__ferm__dependent_rules:
     protocol: 'tcp'
     role: 'neofs-ir'
     rule_state: "{{ 'present' if neofs_ir__control_enabled else 'absent' }}"
+

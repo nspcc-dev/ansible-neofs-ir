@@ -9,4 +9,4 @@
     group: 'root'
     mode: '0755'
   notify: [ 'Restart NeoFS IR' ]
-  when: not (neofs_ir__use_compose | bool)
+  when: neofs_ir__binaries_download | bool
