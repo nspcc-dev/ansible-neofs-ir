@@ -38,6 +38,10 @@
     group: 'root'
     mode: '0644'
   notify: [ 'Restart NeoFS IR' ]
+  register: locode_download_result
+  retries: 5
+  delay: 5
+  until: locode_download_result.status_code != '200'
 
 - ansible.builtin.include_tasks: binary.yml
 
