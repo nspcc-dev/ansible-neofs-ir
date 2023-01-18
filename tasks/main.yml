@@ -42,6 +42,7 @@
   retries: 5
   delay: 5
   until: locode_download_result.status_code != '200'
+  ignore_errors: '{{ ansible_check_mode }}'
 
 - ansible.builtin.include_tasks: binary.yml
 
