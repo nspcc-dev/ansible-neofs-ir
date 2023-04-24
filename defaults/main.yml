@@ -184,9 +184,9 @@ neofs_ir__config: []
 neofs_ir__group_config: []
 neofs_ir__host_config: []
 
-neofs_ir__combined_config: '{{ 
+neofs_ir__combined_config: '{{
   neofs_ir__default_config +
-  neofs_ir__config + 
+  neofs_ir__config +
   neofs_ir__group_config +
   neofs_ir__host_config }}'
 
