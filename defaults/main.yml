@@ -71,10 +71,13 @@ neofs_ir__validators:
       - '031f4d9c66f2ec348832c48fd3a16dfaeb59e85f557ae1e07f6696d0375c64f97b'
 neofs_ir__consensus_committee: "{{ neofs_ir__validators }}"
 
+neofs_ir__mainnet_endpoints:
+  - address: 'ws://localhost:20332/ws'
+
+neofs_ir__morph_endpoints:
+  - address: 'ws://localhost:40332/ws'
+
 neofs_ir__external_sidechain: False
-neofs_ir__external_sidechain_config:
-    client:
-      - address: 'ws://localhost:40332/ws'
 neofs_ir__internal_sidechain_config:
     magic: "{{ neofs_ir__blockchain_magic }}"
     committee: "{{ neofs_ir__consensus_committee }}"
@@ -110,14 +113,11 @@ neofs_ir__raw_config:
     password: '{{ neofs_ir__wallet_password }}'
 
   morph:
-    endpoint: "{{ neofs_ir__external_sidechain_config if neofs_ir__external_sidechain }}"
-    consensus: "{{ neofs_ir__internal_sidechain_config if not neofs_ir__external_sidechain }}"
     validators: "{{ neofs_ir__validators }}"
 
   mainnet:
     endpoint:
-      client:
-        - address: 'ws://localhost:20332/ws'
+      client: '{{ neofs_ir__mainnet_endpoints }}'
 
   node:
     persistent_state:
@@ -162,6 +162,17 @@ neofs_ir__raw_config:
 
 
 neofs_ir__default_config:
+  - enabled: '{{ neofs_ir__external_sidechain }}'
+    options:
+      morph:
+        endpoint:
+          client: '{{ neofs_ir__morph_endpoints }}'
+
+  - enabled: '{{ not neofs_ir__external_sidechain }}'
+    options:
+      morph:
+        consensus: '{{ neofs_ir__internal_sidechain_config }}'
+
   - enabled: '{{ neofs_ir__control_enabled }}'
     options:
       control:
