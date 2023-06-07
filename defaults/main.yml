@@ -78,7 +78,7 @@ neofs_ir__morph_endpoints:
   - address: 'ws://localhost:40332/ws'
 
 neofs_ir__external_sidechain: False
-neofs_ir__internal_sidechain_config:
+neofs_ir__sidechain_config:
     magic: '{{ neofs_ir__blockchain_magic }}'
     committee: '{{ neofs_ir__consensus_committee }}'
     storage:
@@ -171,7 +171,7 @@ neofs_ir__default_config:
   - enabled: '{{ not neofs_ir__external_sidechain }}'
     options:
       morph:
-        consensus: '{{ neofs_ir__internal_sidechain_config }}'
+        consensus: '{{ neofs_ir__sidechain_config }}'
 
   - enabled: '{{ neofs_ir__control_enabled }}'
     options:
