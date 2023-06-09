@@ -219,7 +219,6 @@ neofs_ir__ferm__dependent_rules:
     daddr: [ '{{ neofs_ir__prometheus_address }}' ]
     saddr: '{{ neofs_ir__prometheus_allow + neofs_ir__prometheus_group_allow + neofs_ir__prometheus_host_allow }}'
     protocol: 'tcp'
-    role: 'neofs-ir'
     rule_state: "{{ 'present' if neofs_ir__prometheus_enabled else 'absent' }}"
 
   - type: 'accept'
@@ -228,7 +227,6 @@ neofs_ir__ferm__dependent_rules:
     daddr: [ '{{ neofs_ir__pprof_address }}' ]
     saddr: '{{ neofs_ir__pprof_allow + neofs_ir__pprof_group_allow + neofs_ir__pprof_host_allow }}'
     protocol: 'tcp'
-    role: 'neofs-ir'
     rule_state: "{{ 'present' if neofs_ir__pprof_enabled else 'absent' }}"
 
   - type: 'accept'
@@ -237,6 +235,4 @@ neofs_ir__ferm__dependent_rules:
     daddr: [ '{{ neofs_ir__control_address }}' ]
     saddr: '{{ neofs_ir__control_allow + neofs_ir__control_group_allow + neofs_ir__control_host_allow }}'
     protocol: 'tcp'
-    role: 'neofs-ir'
     rule_state: "{{ 'present' if neofs_ir__control_enabled else 'absent' }}"
-
