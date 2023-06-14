@@ -53,18 +53,20 @@
   ignore_errors: '{{ ansible_check_mode }}'
 
 - ansible.builtin.include_tasks: binary.yml
+  when: not neofs_ir__use_docker|bool and neofs_ir__binaries_download|bool
 
 - ansible.builtin.include_tasks: cli.yml
+  when: neofs_ir__binaries_download|bool
 
 - name: Copy systemd unit
   ansible.builtin.template:
     src: 'neofs-ir.service.j2'
     dest: '/etc/systemd/system/neofs-ir{{ neofs_ir__instance }}.service'
   notify: [ 'Restart NeoFS IR' ]
-  when: not (neofs_ir__use_docker | bool)
+  when: not neofs_ir__use_docker|bool
 
 - ansible.builtin.include_tasks: docker.yml
-  when: neofs_ir__use_docker | bool
+  when: neofs_ir__use_docker|bool
 
 - ansible.builtin.include_tasks: healthcheck.yml
 
@@ -74,4 +76,4 @@
   vars:
     ferm__dependent_rules:
       - '{{ neofs_ir__ferm__dependent_rules }}'
-  when: neofs_ir__debops_ferm_import | bool
+  when: neofs_ir__debops_ferm_import|bool
