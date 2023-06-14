@@ -21,7 +21,7 @@
 - name: Create data directory
   ansible.builtin.file:
     state: directory
-    path: '{{ neofs_ir__blockchain_database_path | dirname }}'
+    path: '{{ neofs_ir__data_dir }}'
     owner: '{{ neofs_ir__user }}'
     group: '{{ neofs_ir__group }}'
     mode: '0750'
