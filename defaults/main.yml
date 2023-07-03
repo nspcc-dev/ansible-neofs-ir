@@ -73,11 +73,9 @@ neofs_ir__validators:
       - '031f4d9c66f2ec348832c48fd3a16dfaeb59e85f557ae1e07f6696d0375c64f97b'
 neofs_ir__consensus_committee: '{{ neofs_ir__validators }}'
 
-neofs_ir__mainnet_endpoints:
-  - address: 'ws://localhost:20332/ws'
+neofs_ir__mainnet_endpoints: [ 'ws://localhost:20332/ws' ]
 
-neofs_ir__morph_endpoints:
-  - address: 'ws://localhost:40332/ws'
+neofs_ir__morph_endpoints: [ 'ws://localhost:40332/ws' ]
 
 neofs_ir__external_sidechain: False
 neofs_ir__sidechain_config:
@@ -118,8 +116,7 @@ neofs_ir__raw_config:
     validators: '{{ neofs_ir__validators }}'
 
   mainnet:
-    endpoint:
-      client: '{{ neofs_ir__mainnet_endpoints }}'
+    endpoints: '{{ neofs_ir__mainnet_endpoints }}'
 
   node:
     persistent_state:
@@ -167,8 +164,7 @@ neofs_ir__default_config:
   - enabled: '{{ neofs_ir__external_sidechain }}'
     options:
       morph:
-        endpoint:
-          client: '{{ neofs_ir__morph_endpoints }}'
+        endpoints: '{{ neofs_ir__morph_endpoints }}'
 
   - enabled: '{{ not neofs_ir__external_sidechain }}'
     options:
