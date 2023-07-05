@@ -28,6 +28,8 @@
 
 - ansible.builtin.include_tasks: wallet.yml
 
+- ansible.builtin.include_tasks: tls.yml
+
 - name: Copy NeoFS IR config
   ansible.builtin.template:
     src: 'config.yml.j2'

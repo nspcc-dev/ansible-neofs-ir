@@ -60,8 +60,35 @@ neofs_ir__blockchain_notary_disabled: False
 neofs_ir__blockchain_time_per_block: '15s'
 neofs_ir__blockchain_magic: '735783775'
 neofs_ir__blockchain_seed_nodes: []
-neofs_ir__blockchain_rpc_addresses: []
-neofs_ir__blockchain_p2p_addresses: []
+
+neofs_ir__blockchain_rpc_address: 'localhost'
+neofs_ir__blockchain_rpc_port: 30333
+neofs_ir__blockchain_rpc_allow: []
+neofs_ir__blockchain_rpc_group_allow: []
+neofs_ir__blockchain_rpc_host_allow: []
+neofs_ir__blockchain_rpc_addresses:
+  - '{{ neofs_ir__blockchain_rpc_address }}:{{ neofs_ir__blockchain_rpc_port }}'
+
+neofs_ir__blockchain_tls_rpc_enabled: False
+neofs_ir__blockchain_tls_rpc_address: 'localhost'
+neofs_ir__blockchain_tls_rpc_port: 30335
+neofs_ir__blockchain_tls_rpc_allow: []
+neofs_ir__blockchain_tls_rpc_group_allow: []
+neofs_ir__blockchain_tls_rpc_host_allow: []
+neofs_ir__blockchain_tls_rpc_addresses:
+  - '{{ neofs_ir__blockchain_tls_rpc_address }}:{{ neofs_ir__blockchain_tls_rpc_port }}'
+neofs_ir__blockchain_tls_rpc_cert: '{{ neofs_ir__conf_dir }}/server.crt'
+neofs_ir__blockchain_tls_rpc_key: '{{ neofs_ir__conf_dir }}/server.key'
+neofs_ir__blockchain_tls_rpc_local_cert: '/local/path/to/cert'
+neofs_ir__blockchain_tls_rpc_local_key: '/local/path/to/key'
+
+neofs_ir__blockchain_p2p_address: 'localhost'
+neofs_ir__blockchain_p2p_port: 20333
+neofs_ir__blockchain_p2p_allow: []
+neofs_ir__blockchain_p2p_group_allow: []
+neofs_ir__blockchain_p2p_host_allow: []
+neofs_ir__blockchain_p2p_addresses:
+  - '{{ neofs_ir__blockchain_p2p_address }}:{{ neofs_ir__blockchain_p2p_port }}'
 
 neofs_ir__validators:
       - '026fa34ec057d74c2fdf1a18e336d0bd597ea401a0b2ad57340d5c220d09f44086'
@@ -90,6 +117,11 @@ neofs_ir__sidechain_config:
     seed_nodes: '{{ neofs_ir__blockchain_seed_nodes }}'
     rpc:
       listen: '{{ neofs_ir__blockchain_rpc_addresses }}'
+      tls:
+        enabled: '{{ neofs_ir__blockchain_tls_rpc_enabled }}'
+        listen: '{{ neofs_ir__blockchain_tls_rpc_addresses }}'
+        cert_file: '{{ neofs_ir__blockchain_tls_rpc_cert }}'
+        key_file: '{{ neofs_ir__blockchain_tls_rpc_key }}'
     p2p:
       dial_timeout: 3s
       proto_tick_interval: 2s
@@ -230,3 +262,27 @@ neofs_ir__ferm__dependent_rules:
     saddr: '{{ neofs_ir__control_allow + neofs_ir__control_group_allow + neofs_ir__control_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neofs_ir__control_enabled else 'absent' }}"
+
+  - type: 'accept'
+    name: 'neofs-ir{{ neofs_ir__instance }}_blockchain_rpc'
+    dport: [ '{{ neofs_ir__blockchain_rpc_port }}' ]
+    daddr: [ '{{ neofs_ir__blockchain_rpc_address }}' ]
+    saddr: '{{ neofs_ir__blockchain_rpc_allow + neofs_ir__blockchain_rpc_group_allow + neofs_ir__blockchain_rpc_host_allow }}'
+    protocol: 'tcp'
+    rule_state: "{{ 'present' if not neofs_ir__external_sidechain else 'absent' }}"
+
+  - type: 'accept'
+    name: 'neofs-ir{{ neofs_ir__instance }}_blockchain_tls_rpc'
+    dport: [ '{{ neofs_ir__blockchain_tls_rpc_port }}' ]
+    daddr: [ '{{ neofs_ir__blockchain_tls_rpc_address }}' ]
+    saddr: '{{ neofs_ir__blockchain_tls_rpc_allow + neofs_ir__blockchain_tls_rpc_group_allow + neofs_ir__blockchain_tls_rpc_host_allow }}'
+    protocol: 'tcp'
+    rule_state: "{{ 'present' if neofs_ir__blockchain_tls_rpc_enabled else 'absent' }}"
+
+  - type: 'accept'
+    name: 'neofs-ir{{ neofs_ir__instance }}_blockchain_p2p'
+    dport: [ '{{ neofs_ir__blockchain_p2p_port }}' ]
+    daddr: [ '{{ neofs_ir__blockchain_p2p_address }}' ]
+    saddr: '{{ neofs_ir__blockchain_p2p_allow + neofs_ir__blockchain_p2p_group_allow + neofs_ir__blockchain_p2p_host_allow }}'
+    protocol: 'tcp'
+    rule_state: "{{ 'present' if not neofs_ir__external_sidechain else 'absent' }}"
