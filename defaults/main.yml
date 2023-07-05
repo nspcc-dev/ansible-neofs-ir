@@ -34,7 +34,7 @@ neofs_ir__wallet_path: '{{ neofs_ir__conf_dir }}/wallet.json'
 neofs_ir__wallet_address: ''
 neofs_ir__wallet_password: ''
 
-neofs_ir__control_enabled: False
+neofs_ir__control_enabled: True
 neofs_ir__control_address: 'localhost'
 neofs_ir__control_port: 8090
 neofs_ir__control_allow: []
