@@ -29,6 +29,7 @@
 - ansible.builtin.include_tasks: wallet.yml
 
 - ansible.builtin.include_tasks: tls.yml
+  when: neofs_ir__blockchain_tls_rpc_enabled|bool
 
 - name: Copy NeoFS IR config
   ansible.builtin.template:
