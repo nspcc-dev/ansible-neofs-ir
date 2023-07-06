@@ -110,11 +110,6 @@ neofs_ir__sidechain_config:
     seed_nodes: '{{ neofs_ir__blockchain_seed_nodes }}'
     rpc:
       listen: '{{ neofs_ir__blockchain_rpc_addresses }}'
-      tls:
-        enabled: '{{ neofs_ir__blockchain_tls_rpc_enabled }}'
-        listen: '{{ neofs_ir__blockchain_tls_rpc_addresses }}'
-        cert_file: '{{ neofs_ir__blockchain_tls_rpc_cert }}'
-        key_file: '{{ neofs_ir__blockchain_tls_rpc_key }}'
     p2p:
       dial_timeout: 3s
       proto_tick_interval: 2s
@@ -197,6 +192,16 @@ neofs_ir__default_config:
     options:
       morph:
         consensus: '{{ neofs_ir__sidechain_config }}'
+
+  - enabled: '{{ neofs_ir__blockchain_tls_rpc_enabled }}'
+    options:
+      morph:
+        consensus:
+          rpc:
+            tls:
+              listen: '{{ neofs_ir__blockchain_tls_rpc_addresses }}'
+              cert_file: '{{ neofs_ir__blockchain_tls_rpc_cert }}'
+              key_file: '{{ neofs_ir__blockchain_tls_rpc_key }}'
 
   - enabled: '{{ neofs_ir__control_enabled }}'
     options:
