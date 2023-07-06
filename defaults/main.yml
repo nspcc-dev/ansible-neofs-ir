@@ -199,6 +199,17 @@ neofs_ir__default_config:
         enabled: True
         address: '{{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}'
 
+  - enabled: '{{ neofs_ir__blockchain_tls_rpc_enabled }}'
+    options:
+      morph:
+        consensus:
+          rpc:
+            tls:
+              enabled: True
+              listen: '{{ neofs_ir__blockchain_tls_rpc_addresses }}'
+              cert_file: '{{ neofs_ir__blockchain_tls_rpc_cert }}'
+              key_file: '{{ neofs_ir__blockchain_tls_rpc_key }}'
+
 neofs_ir__config: []
 neofs_ir__group_config: []
 neofs_ir__host_config: []
