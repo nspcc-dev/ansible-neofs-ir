@@ -173,10 +173,10 @@ neofs_ir__raw_config:
 
 
 neofs_ir__default_config:
- - enabled: '{{ neofs_ir__mainnet_endpoints }}'
-   options:
-     mainnet:
-       endpoints: '{{ neofs_ir__mainnet_endpoints }}'
+  - enabled: '{{ neofs_ir__mainnet_endpoints }}'
+    options:
+      mainnet:
+        endpoints: '{{ neofs_ir__mainnet_endpoints }}'
 
   - enabled: '{{ neofs_ir__external_sidechain }}'
     options:
