@@ -92,9 +92,7 @@ neofs_ir__blockchain_p2p_addresses:
 
 neofs_ir__validators: []
 neofs_ir__consensus_committee: []
-
-neofs_ir__mainnet_endpoints: [ 'ws://localhost:20332/ws' ]
-
+neofs_ir__mainnet_endpoints: []
 neofs_ir__morph_endpoints: [ 'ws://localhost:40332/ws' ]
 
 neofs_ir__external_sidechain: False
@@ -131,9 +129,6 @@ neofs_ir__raw_config:
     path: '{{ neofs_ir__wallet_path }}'
     address: '{{ neofs_ir__wallet_address }}'
     password: '{{ neofs_ir__wallet_password }}'
-
-  mainnet:
-    endpoints: '{{ neofs_ir__mainnet_endpoints }}'
 
   node:
     persistent_state:
@@ -178,6 +173,11 @@ neofs_ir__raw_config:
 
 
 neofs_ir__default_config:
+ - enabled: '{{ neofs_ir__mainnet_endpoints }}'
+   options:
+     mainnet:
+       endpoints: '{{ neofs_ir__mainnet_endpoints }}'
+
   - enabled: '{{ neofs_ir__external_sidechain }}'
     options:
       morph:
