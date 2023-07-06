@@ -109,6 +109,7 @@ neofs_ir__sidechain_config:
       listen: '{{ neofs_ir__blockchain_rpc_addresses }}'
     p2p:
       listen: '{{ neofs_ir__blockchain_p2p_addresses }}'
+      peers: { min: 2 }
 
 
 neofs_ir__raw_config:
