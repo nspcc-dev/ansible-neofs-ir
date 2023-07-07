@@ -66,8 +66,7 @@ neofs_ir__blockchain_rpc_port: 30333
 neofs_ir__blockchain_rpc_allow: []
 neofs_ir__blockchain_rpc_group_allow: []
 neofs_ir__blockchain_rpc_host_allow: []
-neofs_ir__blockchain_rpc_addresses:
-  - '{{ neofs_ir__blockchain_rpc_address }}:{{ neofs_ir__blockchain_rpc_port }}'
+neofs_ir__blockchain_rpc_addresses: [ '{{ neofs_ir__blockchain_rpc_address | ansible.utils.ipwrap }}:{{ neofs_ir__blockchain_rpc_port }}' ]
 
 neofs_ir__blockchain_tls_rpc_enabled: False
 neofs_ir__blockchain_tls_rpc_address: 'localhost'
@@ -75,8 +74,7 @@ neofs_ir__blockchain_tls_rpc_port: 30335
 neofs_ir__blockchain_tls_rpc_allow: []
 neofs_ir__blockchain_tls_rpc_group_allow: []
 neofs_ir__blockchain_tls_rpc_host_allow: []
-neofs_ir__blockchain_tls_rpc_addresses:
-  - '{{ neofs_ir__blockchain_tls_rpc_address }}:{{ neofs_ir__blockchain_tls_rpc_port }}'
+neofs_ir__blockchain_tls_rpc_addresses: [ '{{ neofs_ir__blockchain_tls_rpc_address | ansible.utils.ipwrap }}:{{ neofs_ir__blockchain_tls_rpc_port }}' ]
 neofs_ir__blockchain_tls_rpc_cert: '{{ neofs_ir__conf_dir }}/server.crt'
 neofs_ir__blockchain_tls_rpc_key: '{{ neofs_ir__conf_dir }}/server.key'
 neofs_ir__blockchain_tls_rpc_local_cert: '/local/path/to/cert'
@@ -87,8 +85,7 @@ neofs_ir__blockchain_p2p_port: 20333
 neofs_ir__blockchain_p2p_allow: []
 neofs_ir__blockchain_p2p_group_allow: []
 neofs_ir__blockchain_p2p_host_allow: []
-neofs_ir__blockchain_p2p_addresses:
-  - '{{ neofs_ir__blockchain_p2p_address }}:{{ neofs_ir__blockchain_p2p_port }}'
+neofs_ir__blockchain_p2p_addresses: [ '{{ neofs_ir__blockchain_p2p_address | ansible.utils.ipwrap }}:{{ neofs_ir__blockchain_p2p_port }}' ]
 
 neofs_ir__validators: []
 neofs_ir__consensus_committee: []
@@ -175,19 +172,19 @@ neofs_ir__default_config:
     options:
       control:
         grpc:
-          endpoint: '{{ neofs_ir__control_address }}:{{ neofs_ir__control_port }}'
+          endpoint: '{{ neofs_ir__control_address | ansible.utils.ipwrap }}:{{ neofs_ir__control_port }}'
 
   - enabled: '{{ neofs_ir__prometheus_enabled }}'
     options:
       prometheus:
         enabled: True
-        address: '{{ neofs_ir__prometheus_address }}:{{ neofs_ir__prometheus_port }}'
+        address: '{{ neofs_ir__prometheus_address | ansible.utils.ipwrap }}:{{ neofs_ir__prometheus_port }}'
 
   - enabled: '{{ neofs_ir__pprof_enabled }}'
     options:
       pprof:
         enabled: True
-        address: '{{ neofs_ir__pprof_address }}:{{ neofs_ir__pprof_port }}'
+        address: '{{ neofs_ir__pprof_address | ansible.utils.ipwrap }}:{{ neofs_ir__pprof_port }}'
 
   - enabled: '{{ neofs_ir__blockchain_tls_rpc_enabled }}'
     options:
@@ -221,7 +218,7 @@ neofs_ir__ferm__dependent_rules:
   - type: 'accept'
     name: 'neofs-ir{{ neofs_ir__instance }}_prometheus'
     dport: [ '{{ neofs_ir__prometheus_port }}' ]
-    daddr: [ '{{ neofs_ir__prometheus_address }}' ]
+    daddr: [ "{{ neofs_ir__prometheus_address }}{{ '/0' if neofs_ir__prometheus_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neofs_ir__prometheus_allow + neofs_ir__prometheus_group_allow + neofs_ir__prometheus_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neofs_ir__prometheus_enabled else 'absent' }}"
@@ -229,7 +226,7 @@ neofs_ir__ferm__dependent_rules:
   - type: 'accept'
     name: 'neofs-ir{{ neofs_ir__instance }}_pprof'
     dport: [ '{{ neofs_ir__pprof_port }}' ]
-    daddr: [ '{{ neofs_ir__pprof_address }}' ]
+    daddr: [ "{{ neofs_ir__pprof_address }}{{ '/0' if neofs_ir__pprof_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neofs_ir__pprof_allow + neofs_ir__pprof_group_allow + neofs_ir__pprof_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neofs_ir__pprof_enabled else 'absent' }}"
@@ -237,7 +234,7 @@ neofs_ir__ferm__dependent_rules:
   - type: 'accept'
     name: 'neofs-ir{{ neofs_ir__instance }}_control'
     dport: [ '{{ neofs_ir__control_port }}' ]
-    daddr: [ '{{ neofs_ir__control_address }}' ]
+    daddr: [ "{{ neofs_ir__control_address }}{{ '/0' if neofs_ir__control_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neofs_ir__control_allow + neofs_ir__control_group_allow + neofs_ir__control_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neofs_ir__control_enabled else 'absent' }}"
@@ -245,7 +242,7 @@ neofs_ir__ferm__dependent_rules:
   - type: 'accept'
     name: 'neofs-ir{{ neofs_ir__instance }}_blockchain_rpc'
     dport: [ '{{ neofs_ir__blockchain_rpc_port }}' ]
-    daddr: [ '{{ neofs_ir__blockchain_rpc_address }}' ]
+    daddr: [ "{{ neofs_ir__blockchain_rpc_address }}{{ '/0' if neofs_ir__blockchain_rpc_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neofs_ir__blockchain_rpc_allow + neofs_ir__blockchain_rpc_group_allow + neofs_ir__blockchain_rpc_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if not neofs_ir__external_sidechain else 'absent' }}"
@@ -253,7 +250,7 @@ neofs_ir__ferm__dependent_rules:
   - type: 'accept'
     name: 'neofs-ir{{ neofs_ir__instance }}_blockchain_tls_rpc'
     dport: [ '{{ neofs_ir__blockchain_tls_rpc_port }}' ]
-    daddr: [ '{{ neofs_ir__blockchain_tls_rpc_address }}' ]
+    daddr: [ "{{ neofs_ir__blockchain_tls_rpc_address }}{{ '/0' if neofs_ir__blockchain_tls_rpc_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neofs_ir__blockchain_tls_rpc_allow + neofs_ir__blockchain_tls_rpc_group_allow + neofs_ir__blockchain_tls_rpc_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if neofs_ir__blockchain_tls_rpc_enabled else 'absent' }}"
@@ -261,7 +258,7 @@ neofs_ir__ferm__dependent_rules:
   - type: 'accept'
     name: 'neofs-ir{{ neofs_ir__instance }}_blockchain_p2p'
     dport: [ '{{ neofs_ir__blockchain_p2p_port }}' ]
-    daddr: [ '{{ neofs_ir__blockchain_p2p_address }}' ]
+    daddr: [ "{{ neofs_ir__blockchain_p2p_address }}{{ '/0' if neofs_ir__blockchain_p2p_address in ['0.0.0.0', '::0', '::'] }}" ]
     saddr: '{{ neofs_ir__blockchain_p2p_allow + neofs_ir__blockchain_p2p_group_allow + neofs_ir__blockchain_p2p_host_allow }}'
     protocol: 'tcp'
     rule_state: "{{ 'present' if not neofs_ir__external_sidechain else 'absent' }}"
